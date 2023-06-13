@@ -1,0 +1,199 @@
+html {
+    background-color: #3FEEE6;
+    background-image: -webkit-linear-gradient(65deg, #7337db 50%, #cfd8fc 50%);
+    min-height: 1000px;
+    font-family: 'helvetica neue';
+}
+
+h1 {
+    color: #fff;
+    padding: 10px;
+}
+
+.box {
+    max-width: 400px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+}
+
+#heading {
+    background-color: #A683E3;
+    text-align: center;
+}
+
+.item {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #55BCC9;
+}
+
+.item:last-child {
+    border-bottom: 0;
+}
+
+input:checked+p {
+    text-decoration: line-through;
+    text-decoration-color: #A683E3;
+}
+
+input[type="checkbox"] {
+    margin: 20px;
+}
+
+p {
+    margin: 0;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 200;
+    color: #00204a;
+}
+
+form {
+    text-align: center;
+    margin-left: 20px;
+}
+
+button {
+    min-height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border-color: transparent;
+    background-color: #3FEEE6;
+    color: #fff;
+    font-size: 30px;
+    padding-bottom: 6px;
+    border-width: 0;
+}
+
+input[type="text"] {
+    text-align: center;
+    height: 60px;
+    top: 10px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 200;
+    width: 313px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 0 -3px 0 0 #A683E3;
+}
+
+::placeholder {
+    color: grey;
+    opacity: 1;
+}
+
+footer {
+    color: white;
+    color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+body {
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Itim', cursive;
+    background-color: #fff;
+    color: black;
+}
+
+
+.primaryHeader {
+    display: flex;
+    background-color: #0066CC;
+    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.Form {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+input[type="text"] {
+    width: 200px;
+    height: 30px;
+
+}
+
+.compsubmit {
+    cursor: pointer;
+}
+
+.compsubmit:hover {
+    shape-rendering: crispEdges;
+    color: yellow;
+}
+
+.Home-control {
+    width: 1200px;
+    height: 600px;
+    background-color: #fff;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    display: flex;
+    margin: 0 auto;
+    padding: 1em;
+    color: rgb(255,
+            255,
+            255)
+}
+
+.itemscontainer {
+
+    display: flex;
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    color: rgba(59, 130, 246, 0.5);
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+}
+
+
+
+.items {
+    width: 500px;
+    height: 60px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.item {
+    display: inline-block;
+    padding-right: 2em;
+    right: 10px;
+    font-size: 1em;
+
+}
+
+.add {
+    padding-right: 1em;
+    cursor: pointer;
+}
+
+.minus {
+    padding-left: 1em;
+    cursor: pointer;
+}
+
+.itemlist {
+    text-decoration: none;
+    list-style-type: none;
+}

@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+
+    <body>
+        <div class="primaryHeader">
+            <h1 class="headerticontrol">MGT Company</h1>
+            <h2> Current company: <%= CompanyName %>
+            </h2>
+            <Formapi />
+        </div>
+
+        <div class="Home-control">
+            <div class="itemscontainer">
+                <% newListItems.forEach((item)=> { %>
+                    <div class="items" key="<%= item.id %>">
+                        <h1 class="item">
+                            <%= item.name %>
+                        </h1>
+                        <a class="add">
+                            <FontAwesomeIcon icon={faPlus} />
+                        </a>
+                        <a class="minus">
+                            <FontAwesomeIcon class="minus" icon={faMinus} />
+                        </a>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
+
+        <%- include('partials/footer') %>
