@@ -1,8 +1,8 @@
 body {
    margin: 0;
 font-family: Open Sans, Arial, sans-serif;
-color: #666;
-    background-color: #fff;
+color: #fff;
+    background-color: #666;
     line-height: 1.7em;
     font-weight: 500;
     -webkit-font-smoothing: antialiased
@@ -12,11 +12,11 @@ color: #666;
     margin-top: 0;
     width: 100%;
     display: flex;
-    background-color: #00264f !important;
+    background-color: #fff !important;
     justify-content: center;
     justify-content: space-around;
     align-items: center;
-    color: #fff;
+    color: #666
 }
 
 
@@ -24,7 +24,7 @@ color: #666;
 
     width: 1500;
     height: 600px;
-    background-color: #fff;
+    background-color: #666;
     justify-content: center;
     text-align: center;
     flex-direction: column;
@@ -36,24 +36,26 @@ color: #666;
             255);
 
 }
+img {
+    background-color: #fff;
+    border-radius: 10%;
+}
 
 .itemscontainer {
-    
     width: auto;
-    height: 600px;
-    margin: 0 auto;
-    color: rgba(59, 130, 246, 0.5);
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    flex-direction: column;
-    display: grid;
+        height: 600px;
+        margin: 0 auto;
+        color: rgba(59, 130, 246, 0.5);
+        background-color: #FDFDFD;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        flex-direction: column;
+        display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-gap: 10px;
-        overflow: auto;
-        overflow: visible;
+        grid-column-gap: -200px;
+    
 }
 
 
