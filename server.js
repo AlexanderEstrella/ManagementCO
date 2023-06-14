@@ -9,7 +9,7 @@ const Company = require("./models/company");
 dotenv.config({ path: "./config.env" });
 
 app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static("Public"));
 
 const port = 7000;
@@ -67,9 +67,12 @@ app.get("/:any", async (req, res) => {
         });
         //wait for the reconrd to be entered
         await company.save();
-        res.json({ CompanyName: customizedItem, newListItems: defaultItems });
+        res.render("home", {
+          CompanyName: customizedItem,
+          newListItems: defaultItems,
+        });
       } else {
-        res.json({
+        res.render("home", {
           CompanyName: foundCompany.name,
           newListItems: foundCompany.items,
         });
@@ -79,10 +82,6 @@ app.get("/:any", async (req, res) => {
       res.status(500).json({ error: "Failed to fetch items from DB" });
     }
   }
-});
-
-app.get("/message", (req, res) => {
-  res.json({ message: "Hello, world!" });
 });
 
 const DB =
