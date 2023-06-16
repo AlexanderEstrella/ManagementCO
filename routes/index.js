@@ -3,7 +3,6 @@ const router = express.Router();
 const date = require("../date");
 const Item = require("../models/item");
 const Company = require("../models/company");
-
 const item1 = new Item({
   name: "welcome to your credentials manager!",
 });
@@ -26,7 +25,10 @@ router.get("/", async (req, res) => {
       await Item.insertMany(defaultItems);
       console.log("Successfully saved default items to DB");
     }
-    res.render("home", { CompanyName: day, newListItems: foundItems });
+    res.render("home", {
+      CompanyName: day,
+      newListItems: foundItems,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Failed to fetch items from DB" });
@@ -59,6 +61,16 @@ router.get("/:any", async (req, res) => {
       console.log(err);
       res.status(500).json({ error: "Failed to fetch items from DB" });
     }
+  }
+});
+
+router.get("/companies", async (req, res) => {
+  try {
+    const foundcompanies = await Company.find({});
+    res.render("home", { foundcomp: foundcompanies });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Failed to fetch companies from DB" });
   }
 });
 

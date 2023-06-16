@@ -5,12 +5,21 @@
             <img src="https://acumenfl.com/wp-content/uploads/2019/06/acumen-logo.png">
             <h2> Company: <%= CompanyName %>
             </h2>
-            <form class="searchform" action="/" method="get" onsubmit="updateAction(event)">
-                <!-- Form fields -->
-                <input type="search" name="query" id="queryInput" placeholder="Company...">
-                <input type="submit" value="Search">
-            </form>
+            <div class="dropdown">
+                <input onclick="myFunction()" type="text" placeholder="Search.." id="myInput"
+                    onkeyup="filterFunction()">
+                <div id="myDropdown" class="dropdown-content">
+
+
+                    <a href="/meacon">
+                        meacon
+                    </a>
+
+
+                </div>
+            </div>
         </div>
+
 
         <div class="Home-control">
             <div class="itemscontainer">

@@ -3,7 +3,6 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const routes = require("./routes");
-
 dotenv.config();
 
 const DB = process.env.DB;
