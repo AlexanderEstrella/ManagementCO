@@ -93,33 +93,6 @@ img {
 }
 
 
-input[name=query]{
-     border: 2px solid;
-  border-radius: 4px;
-  height: 30px;
-  box-shadow: #666;
-}
-
-input[type=submit] {
-    border: 2px solid;
-    border-radius: 4px;
-    background-color: #fff;
-}
-
-.dropbtn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-}
-
-/* Dropdown button on hover & focus */
-.dropbtn:hover,
-.dropbtn:focus {
-    background-color: #3e8e41;
-}
 
 /* The search field */
 #myInput {

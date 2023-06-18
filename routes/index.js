@@ -25,9 +25,11 @@ router.get("/", async (req, res) => {
       await Item.insertMany(defaultItems);
       console.log("Successfully saved default items to DB");
     }
+    const foundCompanies = await Company.find({});
     res.render("home", {
       CompanyName: day,
       newListItems: foundItems,
+      foundcompanies: foundCompanies,
     });
   } catch (err) {
     console.log(err);
@@ -36,25 +38,34 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:any", async (req, res) => {
+  const foundCompanies = await Company.find({});
+  // Check if the requested URL parameter is not "favicon.ico"
   if (req.params.any !== "favicon.ico") {
+    // Capitalize the first letter of the requested parameter
     const customizedItem =
       req.params.any[0].toUpperCase() + req.params.any.slice(1);
     try {
+      // Find a company in the database with the customizedItem as the name
       const foundCompany = await Company.findOne({ name: customizedItem });
       if (!foundCompany) {
+        // If no company is found, create a new company with the customizedItem and defaultItems
         const company = new Company({
           name: customizedItem,
           items: defaultItems,
         });
         await company.save();
+        // Render the "home" template with the customizedItem and defaultItems
         res.render("home", {
           CompanyName: customizedItem,
           newListItems: defaultItems,
+          foundcompanies: foundCompanies,
         });
       } else {
+        // If a company is found, render the "home" template with the foundCompany's name and items
         res.render("home", {
           CompanyName: foundCompany.name,
           newListItems: foundCompany.items,
+          foundcompanies: foundCompanies,
         });
       }
     } catch (err) {
@@ -64,13 +75,18 @@ router.get("/:any", async (req, res) => {
   }
 });
 
-router.get("/companies", async (req, res) => {
+router.post("/delete", async (req, res) => {
+  const Idofsoontobedel = req.body.deleteitem;
+  const Currentcomp = req.body.companyNames;
+  console.log(Currentcomp);
   try {
-    const foundcompanies = await Company.find({});
-    res.render("home", { foundcomp: foundcompanies });
+    await Company.findOneAndUpdate(
+      { name: Currentcomp },
+      { $pull: { items: { _id: Idofsoontobedel } } }
+    );
+    res.redirect("/" + Currentcomp);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Failed to fetch companies from DB" });
   }
 });
 

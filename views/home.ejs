@@ -6,14 +6,14 @@
             <h2> Company: <%= CompanyName %>
             </h2>
             <div class="dropdown">
-                <input onclick="myFunction()" type="text" placeholder="Search.." id="myInput"
-                    onkeyup="filterFunction()">
+                <input onclick="myFunction()" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()"
+                    onchange="this.form.submit()">
                 <div id="myDropdown" class="dropdown-content">
-
-
-                    <a href="/meacon">
-                        meacon
-                    </a>
+                    <% foundcompanies.forEach((company)=> { %>
+                        <a href='/<%= encodeURIComponent(company.name) %>' key="<%= company.id %>">
+                            <%= company.name %>
+                        </a>
+                        <% }) %>
 
 
                 </div>
@@ -23,20 +23,27 @@
 
         <div class="Home-control">
             <div class="itemscontainer">
-                <% newListItems.forEach((item)=> { %>
-                    <div class="items" key="<%= item.id %>">
-                        <h1 class="item">
-                            <%= item.name %>
-                        </h1>
-                        <a class="add">
-                            <FontAwesomeIcon icon={faPlus} />
-                        </a>
-                        <a class="minus">
-                            <FontAwesomeIcon class="minus" icon={faMinus} />
-                        </a>
-                    </div>
-                    <% }); %>
+                <form action="/delete" method="post">
+                    <% newListItems.forEach((item)=> { %>
+                        <div class="items">
+                            <input type="checkbox" name="deleteitem" value="<%= item.id %>"
+                                onchange="this.form.submit()">
+                            <h1 class="item">
+                                <%= item.name %>
+                            </h1>
+                        </div>
+                        <% }); %>
+                            <input type="hidden" name="companyNames" value="<%= CompanyName %>">
+                </form>
             </div>
+        </div>
+
+        <form class="items" action="/" method="post">
+            <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+            <button type="submit" name="list" value="<%=  %>">+</button>
+
+        </form>
+        </div>
         </div>
 
         <%- include('partials/footer') %>
