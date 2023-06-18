@@ -177,3 +177,31 @@ input[type="text"]:focus {
 input[type="checkbox"] {
     margin: 20px;
 }
+
+.container {
+position: absolute;
+    width: 300px;
+    height: 200px;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -150px;
+}
+
+input[type=email],
+input[type=password] {
+    text-align: center;
+    height: 30px;
+    top: 10px;
+    border: none;
+    font-size: 20px;
+    font-weight: 200;
+    width: 313px;
+}
+
+.Registerbtn, .Loginbtn {
+    margin: 20px;
+    border-radius: 30%;
+    width: 50px;
+    background: none;
+}

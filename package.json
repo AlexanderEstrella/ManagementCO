@@ -4,14 +4,13 @@
     "dotenv": "^16.1.4",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "mongoose": "^7.2.4",
     "nodemon": "^2.0.22"
   },
   "scripts": {
     "start": "nodemon app.js",
     "open": "start http://localhost:7000"
-
-
   },
   "name": "managementco",
   "version": "1.0.0",

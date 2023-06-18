@@ -3,6 +3,20 @@ const router = express.Router();
 const date = require("../date");
 const Item = require("../models/item");
 const Company = require("../models/company");
+const User = require("../models/user");
+const session = require("express-session");
+
+const checkAuthentication = (req, res, next) => {
+  // Check if the user is logged in
+  if (req.session.user) {
+    // User is authenticated, allow access to the next middleware or route handler
+    next();
+  } else {
+    req.session.error = "access denied!";
+    res.redirect("/login");
+  }
+};
+
 const item1 = new Item({
   name: "Welcome to your Credentials Manager!",
 });
@@ -17,7 +31,14 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3];
 
-router.get("/", async (req, res) => {
+router.get("/login", (req, res) => {
+  res.render("login");
+});
+router.get("/register", (req, res) => {
+  res.render("register");
+});
+
+router.get("/", checkAuthentication, async (req, res) => {
   try {
     let day = date.getDate();
     const foundItems = await Item.find({});
@@ -107,6 +128,42 @@ router.post("/", async (req, res) => {
     } else {
       // Handle case when the company is not found
       res.status(404).send("Company not found");
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+router.post("/register", (req, res) => {
+  const username = req.body.username;
+  const Upassword = req.body.password;
+
+  const newUser = new User({
+    email: username,
+    password: Upassword,
+  });
+  newUser.save();
+  res.redirect("/login");
+});
+router.post("/login", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  try {
+    const foundUser = await User.findOne({ email: username });
+    if (!foundUser) {
+      // User does not exist, render an error message or redirect to register page
+      res.json({ error: "User does not exist, please go to /register" });
+    } else {
+      // User found, check password
+      if (foundUser.password === password) {
+        req.session.user = username; // Store the username in the session
+        res.redirect("/");
+      } else {
+        // Password is incorrect, render an error message or redirect to login page
+        res.json({ error: "Incorrect password" });
+      }
     }
   } catch (err) {
     console.log(err);

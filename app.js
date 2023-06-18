@@ -3,14 +3,25 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const routes = require("./routes");
+const session = require("express-session");
+
 dotenv.config();
 
 const DB = process.env.DB;
+
+app.use(
+  session({
+    secret: "your-secret-key", // Replace with your own secret key
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("Public"));
 app.use("/", routes); // Mount the routes at the root URL
+app.set("trust proxy", 1); // trust first proxy
 
 const port = 7000;
 
