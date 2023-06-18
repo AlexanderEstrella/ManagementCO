@@ -4,15 +4,15 @@ const date = require("../date");
 const Item = require("../models/item");
 const Company = require("../models/company");
 const item1 = new Item({
-  name: "welcome to your credentials manager!",
+  name: "Welcome to your Credentials Manager!",
 });
 
 const item2 = new Item({
-  name: "hit the + button to add a new item",
+  name: "Hit the + button to add a new item",
 });
 
 const item3 = new Item({
-  name: "<---hit this to delete an item",
+  name: "<---Hit this to delete an item",
 });
 
 const defaultItems = [item1, item2, item3];
@@ -76,9 +76,9 @@ router.get("/:any", async (req, res) => {
 });
 
 router.post("/delete", async (req, res) => {
-  const Idofsoontobedel = req.body.deleteitem;
+  console.log("item.id:", req.body.Checkeditem);
+  const Idofsoontobedel = req.body.Checkeditem;
   const Currentcomp = req.body.companyNames;
-  console.log(Currentcomp);
   try {
     await Company.findOneAndUpdate(
       { name: Currentcomp },
@@ -87,6 +87,30 @@ router.post("/delete", async (req, res) => {
     res.redirect("/" + Currentcomp);
   } catch (err) {
     console.log(err);
+  }
+});
+
+router.post("/", async (req, res) => {
+  const itemofsoontocreated = req.body.newItem;
+  const Currentcomp = req.body.newcompany;
+  const newItem = new Item({
+    name: itemofsoontocreated,
+  });
+  try {
+    const foundcomp = await Company.findOneAndUpdate(
+      { name: Currentcomp },
+      { $push: { items: newItem } },
+      { new: true }
+    );
+    if (foundcomp) {
+      res.redirect("/" + Currentcomp);
+    } else {
+      // Handle case when the company is not found
+      res.status(404).send("Company not found");
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error");
   }
 });
 

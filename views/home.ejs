@@ -10,7 +10,7 @@
                     onchange="this.form.submit()">
                 <div id="myDropdown" class="dropdown-content">
                     <% foundcompanies.forEach((company)=> { %>
-                        <a href='/<%= encodeURIComponent(company.name) %>' key="<%= company.id %>">
+                        <a href='/<%= encodeURIComponent(company.name) %>'>
                             <%= company.name %>
                         </a>
                         <% }) %>
@@ -20,29 +20,29 @@
             </div>
         </div>
 
-
         <div class="Home-control">
             <div class="itemscontainer">
-                <form action="/delete" method="post">
-                    <% newListItems.forEach((item)=> { %>
-                        <div class="items">
-                            <input type="checkbox" name="deleteitem" value="<%= item.id %>"
+                <% newListItems.forEach((item)=> { %>
+
+                    <div class="items">
+                        <form class="deleteform" action="/delete" method="post">
+                            <input type="checkbox" name="Checkeditem" value="<%=item._id%>"
                                 onchange="this.form.submit()">
                             <h1 class="item">
                                 <%= item.name %>
                             </h1>
-                        </div>
-                        <% }); %>
-                            <input type="hidden" name="companyNames" value="<%= CompanyName %>">
-                </form>
+                            <input type="hidden" name="companyNames" value="<%=CompanyName%>">
+                    </div>
+                    </form>
+                    <% }); %>
+                        <form class="items" action="/" method="post">
+                            <input type="text" name="newItem" placeholder="New Crendentials" autocomplete="off">
+                            <button type="submit" name="newcompany" value="<%=CompanyName%>">+</button>
+
+                        </form>
             </div>
         </div>
 
-        <form class="items" action="/" method="post">
-            <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-            <button type="submit" name="list" value="<%=  %>">+</button>
-
-        </form>
         </div>
         </div>
 
