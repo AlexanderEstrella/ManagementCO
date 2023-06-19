@@ -1,7 +1,6 @@
 body {
    margin: 0;
 font-family: Open Sans, Arial, sans-serif;
-color: #fff;
     background-color: #666;
     line-height: 1.7em;
     font-weight: 500;
@@ -45,7 +44,8 @@ img {
     width: auto;
         height: 600px;
         margin: 0 auto;
-        color: rgba(59, 130, 246, 0.5);
+        color: black;
+        font-family: Open Sans, Arial, sans-serif;
         background-color: #FDFDFD;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -67,6 +67,7 @@ img {
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     overflow: auto;
+  
 }
 
 .item {
@@ -74,7 +75,8 @@ img {
     padding-right: 2em;
     right: 10px;
     font-size: 1em;
-
+    text-decoration: line-through;
+    color:none;
 }
 
 .add {
@@ -133,6 +135,7 @@ img {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    width: 280px;
 }
 
 /* Change color of dropdown links on hover */
