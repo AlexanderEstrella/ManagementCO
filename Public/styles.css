@@ -126,10 +126,12 @@ input[type="text"]:focus {
 }
 
 input[type="checkbox"] {
-    margin: 20px;
+    margin: 5px;
 }
 
-
+i {
+    padding: 5x;
+}
 
 
 

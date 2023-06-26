@@ -27,9 +27,15 @@
                         <form class="deleteform" action="/delete" method="post">
                             <input type="checkbox" name="Checkeditem" value="<%=item._id%>"
                                 onchange="this.form.submit()">
+
                             <h1 class="item">
                                 <%= item.name %>
                             </h1>
+
+                            <a href="/updateitems">
+                                <i class="fa-solid fa-pen-to-square"> </i>
+                            </a>
+
                             <input type="hidden" name="companyNames" value="<%=CompanyName%>">
                         </form>
 
