@@ -68,13 +68,15 @@ router.get("/:any", async (req, res) => {
     try {
       // Find a company in the database with the customizedItem as the name
       const foundCompany = await Company.findOne({ name: customizedItem });
-      if (!foundCompany) {
-        // If no company is found, create a new company with the customizedItem and defaultItems
+
+      if (foundCompany != "") {
+        /* // If no company is found, create a new company with the customizedItem and defaultItems
         const company = new Company({
           name: customizedItem,
           items: defaultItems,
         });
-        await company.save();
+        await company.save();*/
+
         // Render the "home" template with the customizedItem and defaultItems
         res.render("home", {
           CompanyName: customizedItem,
@@ -171,4 +173,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/updateitems/:any", (req, res) => {
+  res.render("updateitems");
+});
 module.exports = router;
