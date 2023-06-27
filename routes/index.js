@@ -1,11 +1,12 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
+const path = require("path");
 const date = require("../date");
 const Item = require("../models/item");
 const Company = require("../models/company");
 const User = require("../models/user");
 const session = require("express-session");
-
 const checkAuthentication = (req, res, next) => {
   // Check if the user is logged in
   if (req.session.user) {
@@ -38,6 +39,10 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
+router.get("/update/:any", (req, res) => {
+  res.render("update.ejs");
+});
+
 router.get("/", checkAuthentication, async (req, res) => {
   try {
     let day = date.getDate();
@@ -68,15 +73,13 @@ router.get("/:any", async (req, res) => {
     try {
       // Find a company in the database with the customizedItem as the name
       const foundCompany = await Company.findOne({ name: customizedItem });
-
-      if (foundCompany != "") {
-        /* // If no company is found, create a new company with the customizedItem and defaultItems
+      /* if (!foundCompany) {
+        // If no company is found, create a new company with the customizedItem and defaultItems
         const company = new Company({
           name: customizedItem,
           items: defaultItems,
         });
-        await company.save();*/
-
+        await company.save();
         // Render the "home" template with the customizedItem and defaultItems
         res.render("home", {
           CompanyName: customizedItem,
@@ -84,12 +87,15 @@ router.get("/:any", async (req, res) => {
           foundcompanies: foundCompanies,
         });
       } else {
-        // If a company is found, render the "home" template with the foundCompany's name and items
+      */
+      if (foundCompany !== null) {
         res.render("home", {
           CompanyName: foundCompany.name,
           newListItems: foundCompany.items,
           foundcompanies: foundCompanies,
         });
+      } else {
+        res.status(404).json({ error: "Company not found" });
       }
     } catch (err) {
       console.log(err);
@@ -173,7 +179,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/updateitems/:any", (req, res) => {
-  res.render("updateitems");
-});
 module.exports = router;

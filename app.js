@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const routes = require("./routes");
 const session = require("express-session");
+const path = require("path");
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ app.use(express.static("Public"));
 app.use("/", routes); // Mount the routes at the root URL
 app.set("trust proxy", 1); // trust first proxy
 
-const port = 7000;
+const port = 5000;
 
 mongoose
   .connect(DB, {
