@@ -1,5 +1,5 @@
 body {
-   margin: 0;
+    margin: 0;
     font-family: Open Sans, Arial, sans-serif;
     background-color: #666;
     line-height: 1.7em;
@@ -37,6 +37,7 @@ body {
             255);
 
 }
+
 img {
     background-color: #fff;
     border-radius: 10%;
@@ -44,20 +45,20 @@ img {
 
 .itemscontainer {
     width: auto;
-        height: 600px;
-        margin: 0 auto;
-        color: black;
-        font-family: Open Sans, Arial, sans-serif;
-        background-color: #FDFDFD;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        flex-direction: column;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-column-gap: -200px;
-    
+    height: 600px;
+    margin: 0 auto;
+    color: black;
+    font-family: Open Sans, Arial, sans-serif;
+    background-color: #FDFDFD;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: -200px;
+
 }
 
 
@@ -70,7 +71,7 @@ img {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     display: flex;
     text-align: center;
-  flex-direction: column;
+    flex-direction: column;
 }
 
 .item {
@@ -78,7 +79,7 @@ img {
     padding-right: 2em;
     right: 10px;
     font-size: 1em;
-    color:none;
+    color: none;
 }
 
 
@@ -224,18 +225,81 @@ input[type=password] {
 .show {
     display: block;
 }
-
-
-
-
-/* updateItems */
+/* Update Items Styles */
 .updatecont {
-    background-color: red;
+    position: absolute;
     width: 300px;
     height: 200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -150px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.updatecont .form-group {
+    margin-bottom: 15px;
+}
+
+.updatecont .form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.updatecont .form-group input {
+    width: 94%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.updatecont .Updatebtn {
+    min-height: 0px;
+    width: 100%;
+    border-radius: 3px;
+    border-color: transparent;
+    color: #666;
+    background-color: #3feee6;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-width: 0;
+    cursor: pointer;
+}
+
+.updatecont .Updatebtn:hover {
+    background-color: #3feee6;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    /* Adjust styles for tablets and mobile devices */
+
+    .Home-control {
+        height: auto;
+    }
+
+    .itemscontainer {
+        height: auto;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 10px;
+    }
+
+    .items {
+        width: 100%;
+    }
+
+    .updatecont {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Adjust styles for mobile devices */
+
+    .itemscontainer {
+        grid-template-columns: 1fr;
+    }
+}

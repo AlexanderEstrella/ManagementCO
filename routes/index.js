@@ -39,8 +39,9 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/update/:any", (req, res) => {
-  res.render("update.ejs");
+router.get("/update/:itemId", (req, res) => {
+  const itemId = req.body.itemId;
+  res.render("update.ejs", { itemId });
 });
 
 router.get("/", checkAuthentication, async (req, res) => {
@@ -104,6 +105,10 @@ router.get("/:any", async (req, res) => {
   }
 });
 
+router.post("/update", async (req, res) => {
+  const itemId = req.body.itemId;
+  console.log(itemId);
+});
 router.post("/delete", async (req, res) => {
   console.log("item.id:", req.body.Checkeditem);
   const Idofsoontobedel = req.body.Checkeditem;
