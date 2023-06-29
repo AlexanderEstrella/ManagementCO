@@ -65,13 +65,12 @@ img {
 
 .items {
     width: 400px;
-    height: fit-content;
+    height: 60px;
     margin: 0 auto;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    text-align: center;
-    flex-direction: column;
+    overflow: auto;
+
 }
 
 .item {
@@ -81,8 +80,6 @@ img {
     font-size: 1em;
     color: none;
 }
-
-
 
 .add {
     padding-right: 1em;

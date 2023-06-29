@@ -30,7 +30,7 @@
                             <h1 class="item">
                                 <%= item.name %>
                             </h1>
-                            <a href='/update/<%=item._id%>'>
+                            <a href='/update/<%= item._id %>/<%= encodeURIComponent(CompanyName) %>'>
                                 <i class="fa-solid fa-pen-to-square"> </i>
                             </a>
                             <input type="hidden" name="companyNames" value="<%= CompanyName %>">
@@ -38,7 +38,11 @@
                     </div>
 
                     <% }); %>
+                        <form class="items" action="/" method="post">
+                            <input type="text" name="newItem" placeholder="New Crendentials" autocomplete="off">
+                            <button type="submit" name="newcompany" value="<%=CompanyName%>">+</button>
 
+                        </form>
             </div>
         </div>
 

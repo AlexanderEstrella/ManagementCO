@@ -14,15 +14,18 @@
 
 <body>
   <div class="updatecont">
-
     <form action="/update" method="POST">
       <div class="form-group">
         <label for="Item">Item</label>
-        <input type="text" class="input" name="itemtobeupdated">
+        <input type="text" class="input" name="itemtobeupdated" value="<%= itemtoupdate %>">
       </div>
+      <input type="hidden" name="itemId" value="<%= itemId %>">
+      <input type="hidden" name="companyName" value="<%= companyName %>">
       <button type="submit" class="Updatebtn">Update</button>
     </form>
   </div>
+
+
 </body>
 
 <%- include('partials/footer') %>

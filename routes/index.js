@@ -7,6 +7,7 @@ const Item = require("../models/item");
 const Company = require("../models/company");
 const User = require("../models/user");
 const session = require("express-session");
+const company = require("../models/company");
 const checkAuthentication = (req, res, next) => {
   // Check if the user is logged in
   if (req.session.user) {
@@ -39,9 +40,56 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/update/:itemId", (req, res) => {
+router.get("/update/:itemId/:companyName", async (req, res) => {
+  const itemId = req.params.itemId;
+  const companyName = req.params.companyName;
+  console.log(itemId);
+  console.log(companyName);
+  // find company and item id
+  try {
+    const findItem = await Company.findOne(
+      { name: companyName },
+      {
+        items: { $elemMatch: { _id: itemId } },
+      }
+    );
+    // if found set retrieve and render these values
+    if (findItem) {
+      const itemtoupdate = findItem.items[0].name; // Retrieve the item name
+      res.render("update.ejs", {
+        itemId: itemId,
+        companyName: companyName,
+        itemtoupdate: itemtoupdate,
+      });
+    } else {
+      // Handle case when the item is not found
+      res.status(404).json({ error: "Item not found" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Failed to fetch item from DB" });
+  }
+});
+
+router.post("/update", async (req, res) => {
   const itemId = req.body.itemId;
-  res.render("update.ejs", { itemId });
+  const companyName = req.body.companyName;
+  const inputValue = req.body.itemtobeupdated;
+
+  try {
+    // find company and filter by item.id
+
+    await Company.findOneAndUpdate(
+      { name: companyName, "items._id": itemId },
+      // set value to the input
+      { $set: { "items.$.name": inputValue } }
+    );
+
+    res.redirect(`/${companyName}`); // Redirect to the home page or wherever appropriate
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Failed to update item in DB" });
+  }
 });
 
 router.get("/", checkAuthentication, async (req, res) => {
@@ -105,10 +153,6 @@ router.get("/:any", async (req, res) => {
   }
 });
 
-router.post("/update", async (req, res) => {
-  const itemId = req.body.itemId;
-  console.log(itemId);
-});
 router.post("/delete", async (req, res) => {
   console.log("item.id:", req.body.Checkeditem);
   const Idofsoontobedel = req.body.Checkeditem;

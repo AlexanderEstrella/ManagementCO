@@ -19,7 +19,7 @@ app.use(
 );
 
 app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("Public"));
 app.use("/", routes); // Mount the routes at the root URL
 app.set("trust proxy", 1); // trust first proxy
