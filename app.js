@@ -9,10 +9,10 @@ const path = require("path");
 dotenv.config();
 
 const DB = process.env.DB;
-
+const Secret = process.env.Secret;
 app.use(
   session({
-    secret: "your-secret-key", // Replace with your own secret key
+    secret: Secret, // Replace with your own secret key
     resave: false,
     saveUninitialized: false,
   })

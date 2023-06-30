@@ -8,6 +8,8 @@ const Company = require("../models/company");
 const User = require("../models/user");
 const session = require("express-session");
 const company = require("../models/company");
+const bcrypt = require("bcrypt");
+
 const checkAuthentication = (req, res, next) => {
   // Check if the user is logged in
   if (req.session.user) {
@@ -192,16 +194,31 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
   const username = req.body.username;
-  const Upassword = req.body.password;
+  const password = req.body.password;
+  const saltRounds = 10;
 
-  const newUser = new User({
-    email: username,
-    password: Upassword,
-  });
-  newUser.save();
-  res.redirect("/login");
+  try {
+    // Generate a salt
+    const salt = await bcrypt.genSalt(saltRounds);
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      email: username,
+      password: hashedPassword,
+    });
+
+    // Save the new user to the database
+    await newUser.save();
+
+    res.redirect("/login");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 router.post("/login", async (req, res) => {
   const username = req.body.username;
@@ -214,7 +231,8 @@ router.post("/login", async (req, res) => {
       res.json({ error: "User does not exist, please go to /register" });
     } else {
       // User found, check password
-      if (foundUser.password === password) {
+      const passwordMatch = await bcrypt.compare(password, foundUser.password);
+      if (passwordMatch) {
         req.session.user = username; // Store the username in the session
         res.redirect("/");
       } else {
