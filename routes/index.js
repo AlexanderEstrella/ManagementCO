@@ -1,13 +1,11 @@
 const express = require("express");
 const app = express();
 const router = express.Router();
-const path = require("path");
 const date = require("../date");
 const Item = require("../models/item");
 const Company = require("../models/company");
 const User = require("../models/user");
 const session = require("express-session");
-const company = require("../models/company");
 const bcrypt = require("bcrypt");
 
 const checkAuthentication = (req, res, next) => {
@@ -16,8 +14,7 @@ const checkAuthentication = (req, res, next) => {
     // User is authenticated, allow access to the next middleware or route handler
     next();
   } else {
-    req.session.error = "access denied!";
-    res.redirect("/login");
+    res.status(401).json({ error: "Access denied, Please login or register" });
   }
 };
 
@@ -30,10 +27,13 @@ const item2 = new Item({
 });
 
 const item3 = new Item({
-  name: "<---Hit this to delete an item",
+  name: "Hit box to delete an item",
+});
+const item4 = new Item({
+  name: "Hit the pencil to update an item",
 });
 
-const defaultItems = [item1, item2, item3];
+const defaultItems = [item1, item2, item3, item4];
 
 router.get("/login", (req, res) => {
   res.render("login");
@@ -42,47 +42,56 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/update/:itemId/:companyName", async (req, res) => {
-  const itemId = req.params.itemId;
-  const companyName = req.params.companyName;
-  console.log(itemId);
-  console.log(companyName);
-  // find company and item id
-  try {
-    const findItem = await Company.findOne(
-      { name: companyName },
-      {
-        items: { $elemMatch: { _id: itemId } },
-      }
-    );
-    // if found set retrieve and render these values
-    if (findItem) {
-      const itemtoupdate = findItem.items[0].name; // Retrieve the item name
-      res.render("update.ejs", {
-        itemId: itemId,
-        companyName: companyName,
-        itemtoupdate: itemtoupdate,
-      });
-    } else {
-      // Handle case when the item is not found
-      res.status(404).json({ error: "Item not found" });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Failed to fetch item from DB" });
-  }
-});
+router.get(
+  "/update/:itemId/:companyName",
+  checkAuthentication,
+  async (req, res) => {
+    const username = req.session.user;
+    const itemId = req.params.itemId;
+    const companyName = req.params.companyName;
+    console.log(itemId);
+    console.log(companyName);
 
-router.post("/update", async (req, res) => {
+    // find company and item id
+    try {
+      req.session.user = username;
+      const findItem = await Company.findOne(
+        { name: companyName, user: username },
+        {
+          items: { $elemMatch: { _id: itemId } },
+        }
+      );
+      // if found set retrieve and render these values
+      if (findItem) {
+        const itemtoupdate = findItem.items[0].name; // Retrieve the item name
+        res.render("update.ejs", {
+          itemId: itemId,
+          companyName: companyName,
+          itemtoupdate: itemtoupdate,
+        });
+      } else {
+        // Handle case when the item is not found
+        res.status(404).json({ error: "Item not found" });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Failed to fetch item from DB" });
+    }
+  }
+);
+
+router.post("/update", checkAuthentication, async (req, res) => {
+  const username = req.session.user;
   const itemId = req.body.itemId;
   const companyName = req.body.companyName;
   const inputValue = req.body.itemtobeupdated;
 
   try {
+    req.session.user = username;
     // find company and filter by item.id
 
     await Company.findOneAndUpdate(
-      { name: companyName, "items._id": itemId },
+      { name: companyName, user: username, "items._id": itemId },
       // set value to the input
       { $set: { "items.$.name": inputValue } }
     );
@@ -96,13 +105,14 @@ router.post("/update", async (req, res) => {
 
 router.get("/", checkAuthentication, async (req, res) => {
   try {
+    const username = req.session.user;
     let day = date.getDate();
     const foundItems = await Item.find({});
     if (foundItems.length === 0) {
       await Item.insertMany(defaultItems);
       console.log("Successfully saved default items to DB");
     }
-    const foundCompanies = await Company.find({});
+    const foundCompanies = await Company.find({ user: username });
     res.render("home", {
       CompanyName: day,
       newListItems: foundItems,
@@ -114,20 +124,31 @@ router.get("/", checkAuthentication, async (req, res) => {
   }
 });
 
-router.get("/:any", async (req, res) => {
-  const foundCompanies = await Company.find({});
+router.get("/:any", checkAuthentication, async (req, res) => {
+  const username = req.session.user;
+  req.session.user = username;
+  const foundCompanies = await Company.find({ user: username });
+
   // Check if the requested URL parameter is not "favicon.ico"
-  if (req.params.any !== "favicon.ico") {
+  if (
+    req.params.any.toLowerCase() !== "searchicon.png" &&
+    req.params.any.toLowerCase() !== "favicon.ico"
+  ) {
     // Capitalize the first letter of the requested parameter
     const customizedItem =
       req.params.any[0].toUpperCase() + req.params.any.slice(1);
     try {
       // Find a company in the database with the customizedItem as the name
-      const foundCompany = await Company.findOne({ name: customizedItem });
-      /* if (!foundCompany) {
+
+      const foundCompany = await Company.findOne({
+        name: customizedItem,
+        user: username,
+      });
+      if (!foundCompany) {
         // If no company is found, create a new company with the customizedItem and defaultItems
         const company = new Company({
           name: customizedItem,
+          user: username,
           items: defaultItems,
         });
         await company.save();
@@ -138,15 +159,15 @@ router.get("/:any", async (req, res) => {
           foundcompanies: foundCompanies,
         });
       } else {
-      */
-      if (foundCompany !== null) {
-        res.render("home", {
-          CompanyName: foundCompany.name,
-          newListItems: foundCompany.items,
-          foundcompanies: foundCompanies,
-        });
-      } else {
-        res.status(404).json({ error: "Company not found" });
+        if (foundCompany !== null) {
+          res.render("home", {
+            CompanyName: foundCompany.name,
+            newListItems: foundCompany.items,
+            foundcompanies: foundCompanies,
+          });
+        } else {
+          res.status(404).json({ error: "Company not found" });
+        }
       }
     } catch (err) {
       console.log(err);
@@ -155,13 +176,15 @@ router.get("/:any", async (req, res) => {
   }
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete", checkAuthentication, async (req, res) => {
+  const username = req.session.user;
+  req.session.user = username;
   console.log("item.id:", req.body.Checkeditem);
   const Idofsoontobedel = req.body.Checkeditem;
   const Currentcomp = req.body.companyNames;
   try {
     await Company.findOneAndUpdate(
-      { name: Currentcomp },
+      { name: Currentcomp, user: username },
       { $pull: { items: { _id: Idofsoontobedel } } }
     );
     res.redirect("/" + Currentcomp);
@@ -170,7 +193,9 @@ router.post("/delete", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuthentication, async (req, res) => {
+  const username = req.session.user;
+  req.session.user = username;
   const itemofsoontocreated = req.body.newItem;
   const Currentcomp = req.body.newcompany;
   const newItem = new Item({
@@ -178,7 +203,7 @@ router.post("/", async (req, res) => {
   });
   try {
     const foundcomp = await Company.findOneAndUpdate(
-      { name: Currentcomp },
+      { name: Currentcomp, user: username },
       { $push: { items: newItem } },
       { new: true }
     );
@@ -195,35 +220,42 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const username = req.body.username;
+  const user = req.body.username;
   const password = req.body.password;
+  const username = user.toLowerCase();
   const saltRounds = 10;
 
   try {
     // Generate a salt
-    const salt = await bcrypt.genSalt(saltRounds);
+    const foundUser = await User.findOne({ email: username });
+    if (foundUser) {
+      res.json({ error: "User already exist, please go to /login" });
+    } else {
+      const salt = await bcrypt.genSalt(saltRounds);
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, salt);
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({
-      email: username,
-      password: hashedPassword,
-    });
+      const newUser = new User({
+        email: username,
+        password: hashedPassword,
+      });
 
-    // Save the new user to the database
-    await newUser.save();
+      // Save the new user to the database
+      await newUser.save();
 
-    res.redirect("/login");
+      res.redirect("/login");
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send("Internal Server Error");
   }
 });
-router.post("/login", async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
 
+router.post("/login", async (req, res) => {
+  const user = req.body.username;
+  const password = req.body.password;
+  const username = user.toLowerCase();
   try {
     const foundUser = await User.findOne({ email: username });
     if (!foundUser) {
@@ -234,6 +266,7 @@ router.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, foundUser.password);
       if (passwordMatch) {
         req.session.user = username; // Store the username in the session
+        console.log(username);
         res.redirect("/");
       } else {
         // Password is incorrect, render an error message or redirect to login page

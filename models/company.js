@@ -6,6 +6,7 @@ const itemSchema = new mongoose.Schema({
 
 const companySchema = new mongoose.Schema({
   name: String,
+  user: String,
   items: [itemSchema],
 });
 

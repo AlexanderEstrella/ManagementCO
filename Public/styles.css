@@ -24,7 +24,7 @@ body {
 .Home-control {
 
     width: 1500;
-    height: 600px;
+    height: auto;
     background-color: #666;
     justify-content: center;
     text-align: center;
@@ -45,7 +45,7 @@ img {
 
 .itemscontainer {
     width: auto;
-    height: 600px;
+    height: auto;
     margin: 0 auto;
     color: black;
     font-family: Open Sans, Arial, sans-serif;
@@ -54,11 +54,10 @@ img {
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    flex-direction: column;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: -200px;
-
+    grid-template-columns: repeat(3, 0.1fr);
+    grid-column-gap: opx;
+    row-gap: 0;
 }
 
 
@@ -69,10 +68,12 @@ img {
     margin: 0 auto;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    overflow: auto;
-
 }
-
+.newitems {width: 400px;
+    height: 60px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
 .item {
     display: inline-block;
     padding-right: 2em;
@@ -174,7 +175,6 @@ input[type=password] {
 /* The search field */
 #myInput {
     box-sizing: border-box;
-    background-image: url('searchicon.png');
     background-position: 14px 12px;
     background-repeat: no-repeat;
     font-size: 16px;
@@ -271,32 +271,121 @@ input[type=password] {
 }
 
 /* Media Queries */
-@media (max-width: 768px) {
-    /* Adjust styles for tablets and mobile devices */
 
-    .Home-control {
+
+@media (max-width: 1500px) {
+
+    /* Adjust styles for medium devices */
+.Home-control {
+
+        width: auto;
         height: auto;
+        background-color: #666;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        display: flex;
+        margin: 0 auto;
+        padding: 1em;
+        color: rgb(255,
+                255,
+                255);
+
     }
+
 
     .itemscontainer {
+        width: auto;
         height: auto;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column-gap: 10px;
+        margin: 0 auto;
+        color: black;
+        font-family: Open Sans, Arial, sans-serif;
+        background-color: #FDFDFD;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: -200px;
+        
     }
+
+
 
     .items {
-        width: 100%;
+        width: 200px;
+        height: auto;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
-
-    .updatecont {
-        width: 90%;
-    }
+input[type="text"] {
+    text-align: center;
+    height: 3auto;
+    top: 10px;
+    border: none;
+    background: transparent;
+    font-size: 1em;
+    font-weight: 200;
+    width: auto;
 }
+.newitems {
+    width: 200px;
+    height: 60px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+    
 
-@media (max-width: 480px) {
-    /* Adjust styles for mobile devices */
+   
+    
 
-    .itemscontainer {
-        grid-template-columns: 1fr;
-    }
+ }
+
+@media (max-width: 665px) {
+  /* Adjust styles for mobile devices */
+  
+  .itemscontainer {
+    grid-template-columns: repeat(3, 1fr); /* Display items in a 3-column grid */
+  }
+  
+  .items {
+    display: flex;/* Reset width to auto */
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    margin: 0 5px; /* Add margin to create space between items */
+  }
+  
+  input[type="text"] {
+    width: 80px; /* Take full width of the container */
+  }
+  
+  .newitems {
+    width: 77%; /* Take full width of the container */
+    height: 60px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px; /* Add padding to align the input and button */
+  }
+  
+  button {
+    width: 30px; /* Reduce button size for mobile */
+    font-size: 20px; /* Reduce button font size for mobile */
+  }
+  
+  img {
+    width: 80px; /* Adjust image width for mobile */
+  }
+  
+  .dropdown-content a {
+    width: 100%; /* Take full width of the dropdown */
+  }
 }
