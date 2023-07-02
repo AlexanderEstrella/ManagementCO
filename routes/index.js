@@ -124,6 +124,63 @@ router.get("/", checkAuthentication, async (req, res) => {
   }
 });
 
+router.get("/company", (req, res) => {
+  res.render("company");
+});
+
+router.post("/company", checkAuthentication, async (req, res) => {
+  const username = req.session.user;
+  req.session.user = username;
+  const foundCompanies = await Company.find({ user: username });
+  const companyName = req.body.newcompany;
+  console.log(companyName);
+
+  // Check if the requested URL parameter is not "favicon.ico"
+  if (
+    companyName &&
+    companyName.toLowerCase() !== "searchicon.png" &&
+    companyName.toLowerCase() !== "favicon.ico"
+  ) {
+    // Capitalize the first letter of the requested parameter
+    const customizedItem = companyName[0].toUpperCase() + companyName.slice(1);
+    try {
+      // Find a company in the database with the customizedItem as the name
+      const foundCompany = await Company.findOne({
+        name: customizedItem,
+        user: username,
+      });
+      if (!foundCompany) {
+        // If no company is found, create a new company with the customizedItem and defaultItems
+        const company = new Company({
+          name: customizedItem,
+          user: username,
+          items: defaultItems,
+        });
+        await company.save();
+        // Render the "home" template with the customizedItem and defaultItems
+        res.render("home", {
+          CompanyName: customizedItem,
+          newListItems: defaultItems,
+          foundcompanies: foundCompanies,
+        });
+      } else {
+        if (foundCompany !== null) {
+          res.render("home", {
+            CompanyName: foundCompany.name,
+            newListItems: foundCompany.items,
+            foundcompanies: foundCompanies,
+          });
+        } else {
+          res.status(404).json({ error: "Company not found" });
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Failed to fetch items from DB" });
+    }
+  }
+});
+
 router.get("/:any", checkAuthentication, async (req, res) => {
   const username = req.session.user;
   req.session.user = username;
@@ -223,7 +280,7 @@ router.post("/register", async (req, res) => {
   const user = req.body.username;
   const password = req.body.password;
   const username = user.toLowerCase();
-  const saltRounds = 10;
+  const saltRounds = 12;
 
   try {
     // Generate a salt

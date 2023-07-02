@@ -40,7 +40,9 @@ body {
 
 img {
     background-color: #fff;
-    border-radius: 10%;
+        border-radius: 10%;
+        max-height: 65px;
+        max-width: 165px;
 }
 
 .itemscontainer {
@@ -69,11 +71,15 @@ img {
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-.newitems {width: 400px;
+
+.newitems {
+    width: 400px;
     height: 60px;
     margin: 0 auto;
     border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
 .item {
     display: inline-block;
     padding-right: 2em;
@@ -136,6 +142,8 @@ i {
 
 
 
+
+
 /*Login/Register styling  */
 .container {
     position: absolute;
@@ -164,13 +172,45 @@ input[type=password] {
     border-radius: 30%;
     width: 50px;
     background: none;
+    
 }
 
 
+.Loginrbtn a {
+background-color: transparent;
+        text-decoration: none;
+        color: inherit;
+        outline: 0;
+        cursor: pointer;
+        padding-left: 30%;
+}
 
+.Loginrbtn {
+    background-color: transparent;
+  
+    padding-left: 30%;
+}
+.Registerbtn a {
+    text-decoration: none;
+        color: inherit;
+        outline: 0;
+        cursor: pointer;
 
+}
 
+/* company styling */
 
+.Createbtn {
+    text-align: center;
+    background-color: transparent;
+    color: #666;
+    min-height: 50px;
+     width: 50px;
+        font-size: 30px;
+        padding-bottom: 6px;
+        border-width: 0;
+        cursor: pointer;
+}
 
 /* The search field */
 #myInput {
@@ -222,6 +262,7 @@ input[type=password] {
 .show {
     display: block;
 }
+
 /* Update Items Styles */
 .updatecont {
     position: absolute;
@@ -276,7 +317,7 @@ input[type=password] {
 @media (max-width: 1500px) {
 
     /* Adjust styles for medium devices */
-.Home-control {
+    .Home-control {
 
         width: auto;
         height: auto;
@@ -308,7 +349,7 @@ input[type=password] {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-column-gap: -200px;
-        
+
     }
 
 
@@ -320,72 +361,89 @@ input[type=password] {
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
-input[type="text"] {
-    text-align: center;
-    height: 3auto;
-    top: 10px;
-    border: none;
-    background: transparent;
-    font-size: 1em;
-    font-weight: 200;
-    width: auto;
-}
-.newitems {
-    width: 200px;
-    height: 60px;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-    
 
-   
-    
+    input[type="text"] {
+        text-align: center;
+        height: 3auto;
+        top: 10px;
+        border: none;
+        background: transparent;
+        font-size: 1em;
+        font-weight: 200;
+        width: auto;
+    }
 
- }
+    .newitems {
+        width: 200px;
+        height: 60px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+
+
+
+
+}
 
 @media (max-width: 665px) {
-  /* Adjust styles for mobile devices */
-  
-  .itemscontainer {
-    grid-template-columns: repeat(3, 1fr); /* Display items in a 3-column grid */
-  }
-  
-  .items {
-    display: flex;/* Reset width to auto */
-    flex-direction: row;
-    width: auto;
-    height: auto;
-    margin: 0 5px; /* Add margin to create space between items */
-  }
-  
-  input[type="text"] {
-    width: 80px; /* Take full width of the container */
-  }
-  
-  .newitems {
-    width: 77%; /* Take full width of the container */
-    height: 60px;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px; /* Add padding to align the input and button */
-  }
-  
-  button {
-    width: 30px; /* Reduce button size for mobile */
-    font-size: 20px; /* Reduce button font size for mobile */
-  }
-  
-  img {
-    width: 80px; /* Adjust image width for mobile */
-  }
-  
-  .dropdown-content a {
-    width: 100%; /* Take full width of the dropdown */
-  }
+    /* Adjust styles for mobile devices */
+
+    .itemscontainer {
+        grid-template-columns: repeat(3, 1fr);
+        /* Display items in a 3-column grid */
+    }
+
+    .items {
+        display: flex;
+        /* Reset width to auto */
+        flex-direction: row;
+        width: auto;
+        height: auto;
+        margin: 0 5px;
+        /* Add margin to create space between items */
+    }
+
+    input[type="text"] {
+        width: 80px;
+        /* Take full width of the container */
+    }
+
+    .newitems {
+        width: 77%;
+        /* Take full width of the container */
+        height: 60px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        /* Add padding to align the input and button */
+    }
+
+    button {
+        width: 30px;
+        /* Reduce button size for mobile */
+        font-size: 20px;
+        /* Reduce button font size for mobile */
+    }
+
+    img {
+        width: 80px;
+        /* Adjust image width for mobile */
+    }
+
+    .dropdown-content a {
+        width: auto;
+        /* Take full width of the dropdown */
+    }
+        .dropdown-content {
+            
+            min-width: 20px;
+            
+        }
 }

@@ -15,6 +15,10 @@ app.use(
     secret: Secret, // Replace with your own secret key
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      // Session expires after 1 min of inactivity.
+      expires: 360000,
+    },
   })
 );
 
