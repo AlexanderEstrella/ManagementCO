@@ -13,7 +13,7 @@
     "path": "^0.12.7"
   },
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "open": "start http://localhost:7000"
   },
   "name": "managementco",
