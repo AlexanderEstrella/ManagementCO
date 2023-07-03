@@ -9,8 +9,8 @@ Screenshot of the app is below
 ![Alt text](image.png)
 
 Technologies uses:
-*EJS
-*Express
-*Bcrypt
-*Mongoose
-*Session-express
+* EJS
+* Express
+* Bcrypt
+* Mongoose
+* Session-express
