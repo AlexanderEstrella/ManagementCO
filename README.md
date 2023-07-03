@@ -13,3 +13,4 @@ Technologies uses:
 -Express
 -Bcrypt
 -Mongoose
+-Session-express
