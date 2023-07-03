@@ -28,7 +28,7 @@ app.use(express.static("Public"));
 app.use("/", routes); // Mount the routes at the root URL
 app.set("trust proxy", 1); // trust first proxy
 
-const port = 5000;
+const port = 3000;
 
 mongoose
   .connect(DB, {

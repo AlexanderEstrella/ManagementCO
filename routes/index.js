@@ -14,7 +14,8 @@ const checkAuthentication = (req, res, next) => {
     // User is authenticated, allow access to the next middleware or route handler
     next();
   } else {
-    res.status(401).json({ error: "Access denied, Please login or register" });
+    req.session.message = "Access denied, please login or register"; // Set the message in the session
+    res.redirect("/login"); // Redirect to the login page
   }
 };
 
@@ -36,7 +37,9 @@ const item4 = new Item({
 const defaultItems = [item1, item2, item3, item4];
 
 router.get("/login", (req, res) => {
-  res.render("login");
+  const message = req.session.message; // Retrieve the message from the session
+  req.session.message = null; // Clear the message from the session
+  res.render("login", { message }); //
 });
 router.get("/register", (req, res) => {
   res.render("register");
