@@ -7,8 +7,8 @@ const session = require("express-session");
 
 dotenv.config();
 
-const DB = process.env.DB;
-const Secret = process.env.Secret;
+const DB = `mongodb+srv://alexanderestrella23:CyPp77LnOC93iqYA@cluster0.ohq58lm.mongodb.net/Cmtmanager`;
+const Secret = "superdaffyduck";
 app.use(
   session({
     secret: Secret, // Replace with your own secret key

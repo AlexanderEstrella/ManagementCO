@@ -283,7 +283,7 @@ router.post("/register", async (req, res) => {
   const user = req.body.username;
   const password = req.body.password;
   const username = user.toLowerCase();
-  const saltRounds = process.env.saltRounds;
+  const saltRounds = 12;
 
   try {
     // Generate a salt
