@@ -7,6 +7,8 @@ const session = require("express-session");
 
 dotenv.config();
 
+const DB = process.env.DB;
+const Secret = process.env.Secret;
 app.use(
   session({
     secret: Secret, // Replace with your own secret key
