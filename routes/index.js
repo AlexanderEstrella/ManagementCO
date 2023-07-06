@@ -6,7 +6,7 @@ const Item = require("../models/item");
 const Company = require("../models/company");
 const User = require("../models/user");
 const session = require("express-session");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const checkAuthentication = (req, res, next) => {
   // Check if the user is logged in
