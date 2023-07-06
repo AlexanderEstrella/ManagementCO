@@ -39,7 +39,7 @@ app.use(express.static("Public"));
 app.use("/", routes);
 app.set("trust proxy", 1);
 
-const port = 3000;
+const port = 80;
 
 mongoose
   .connect(DB, {
