@@ -4,19 +4,31 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const routes = require("./routes");
 const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 
 dotenv.config();
 
 const DB = `mongodb+srv://alexanderestrella23:CyPp77LnOC93iqYA@cluster0.ohq58lm.mongodb.net/Cmtmanager`;
 const Secret = "superdaffyduck";
+
+// Create a new MongoDBStore instance
+const store = new MongoDBStore({
+  uri: DB,
+  collection: "sessions",
+});
+
+store.on("error", function (error) {
+  console.log("Session store error:", error);
+});
+
 app.use(
   session({
-    secret: Secret, // Replace with your own secret key
+    secret: Secret,
     resave: false,
     saveUninitialized: false,
+    store: store,
     cookie: {
-      // Session expires after 1 min of inactivity.
-      expires: 360000,
+      expires: 60000, // Session expires after 1 minute of inactivity
     },
   })
 );
@@ -24,8 +36,8 @@ app.use(
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("Public"));
-app.use("/", routes); // Mount the routes at the root URL
-app.set("trust proxy", 1); // trust first proxy
+app.use("/", routes);
+app.set("trust proxy", 1);
 
 const port = 3000;
 
@@ -34,7 +46,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then((con) => {
+  .then(() => {
     console.log("DB CONNECTION SUCCESS");
   })
   .catch((err) => {
