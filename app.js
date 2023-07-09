@@ -9,7 +9,8 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 dotenv.config();
 
 const DB = process.env.DB;
-const Secret = proccess.env.Secret;
+const secret = process.env.Secret;
+
 
 // Create a new MongoDBStore instance
 const store = new MongoDBStore({
@@ -23,7 +24,7 @@ store.on("error", function (error) {
 
 app.use(
   session({
-    secret: Secret,
+    secret: secret,
     resave: false,
     saveUninitialized: false,
     store: store,
