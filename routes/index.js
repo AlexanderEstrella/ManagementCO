@@ -52,8 +52,6 @@ router.get(
     const username = req.session.user;
     const itemId = req.params.itemId;
     const companyName = req.params.companyName;
-    console.log(itemId);
-    console.log(companyName);
 
     // find company and item id
     try {
@@ -113,7 +111,6 @@ router.get("/", checkAuthentication, async (req, res) => {
     const foundItems = await Item.find({});
     if (foundItems.length === 0) {
       await Item.insertMany(defaultItems);
-      console.log("Successfully saved default items to DB");
     }
     const foundCompanies = await Company.find({ user: username });
     res.render("home", {
@@ -136,7 +133,6 @@ router.post("/company", checkAuthentication, async (req, res) => {
   req.session.user = username;
   const foundCompanies = await Company.find({ user: username });
   const companyName = req.body.newcompany;
-  console.log(companyName);
 
   // Check if the requested URL parameter is not "favicon.ico"
   if (
@@ -239,7 +235,7 @@ router.get("/:any", checkAuthentication, async (req, res) => {
 router.post("/delete", checkAuthentication, async (req, res) => {
   const username = req.session.user;
   req.session.user = username;
-  console.log("item.id:", req.body.Checkeditem);
+
   const Idofsoontobedel = req.body.Checkeditem;
   const Currentcomp = req.body.companyNames;
   try {
@@ -283,7 +279,7 @@ router.post("/register", async (req, res) => {
   const user = req.body.username;
   const password = req.body.password;
   const username = user.toLowerCase();
-  const saltRounds = 12;
+  const saltRounds = process.env.salRounds;
 
   try {
     // Generate a salt
@@ -326,7 +322,7 @@ router.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, foundUser.password);
       if (passwordMatch) {
         req.session.user = username; // Store the username in the session
-        console.log(username);
+
         res.redirect("/");
       } else {
         // Password is incorrect, render an error message or redirect to login page

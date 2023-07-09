@@ -8,8 +8,8 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 
 dotenv.config();
 
-const DB = `mongodb+srv://alexanderestrella23:CyPp77LnOC93iqYA@cluster0.ohq58lm.mongodb.net/Cmtmanager`;
-const Secret = "superdaffyduck";
+const DB = process.env.DB;
+const Secret = proccess.env.Secret;
 
 // Create a new MongoDBStore instance
 const store = new MongoDBStore({
