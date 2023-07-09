@@ -11,7 +11,6 @@ dotenv.config();
 const DB = process.env.DB;
 const secret = process.env.Secret;
 
-
 // Create a new MongoDBStore instance
 const store = new MongoDBStore({
   uri: DB,
